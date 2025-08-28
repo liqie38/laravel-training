@@ -42,6 +42,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('vehicle.create') }}">Tambah Vehicle</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.index') }}">Senarai Pengguna</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.create') }}">Tambah Pengguna</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
