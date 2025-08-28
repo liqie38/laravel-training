@@ -45,12 +45,18 @@
                               <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                               <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
                               <td class="text-center">
+                                @can('view', $item)
                                 <a href="{{ route('inventory.show', $item->id) }}" class="btn btn-sm btn-info">Show</a>
-              <a href="{{ route('inventory.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-              <!-- Trigger Modal -->
-              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
-                Padam
-              </button>
+                                @endcan
+                                @can('update', $item)
+                                <a href="{{ route('inventory.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                @endcan
+                                @can('delete', $item)
+                                <!-- Trigger Modal -->
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                  Padam
+                                </button>
+                                @endcan
             </td>
                           </tr>
                           <!-- Modal Popup -->

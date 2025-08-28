@@ -6,10 +6,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\APIPostController;
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+Route::redirect('/', '/home');
 
 Auth::routes();
 
@@ -41,3 +43,4 @@ Route::prefix('users')->name('user.')->group(function () {
     Route::post('/update/{user}', [UserController::class, 'update'])->name('update');
     Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
 });
+Route::get('posts', [APIPostController::class, 'index'])->name('posts.index');

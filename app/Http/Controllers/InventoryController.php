@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\InventoryCreatedJob;
 
 class InventoryController extends Controller
 {
@@ -49,14 +50,17 @@ class InventoryController extends Controller
     ]);
 
     // Simpan ke database
-    Inventory::create([
+    $inventory=Inventory::create([
         'name' => $request->name,
         'qty' => $request->qty,
         'price' => $request->price,
         'description' => $request->description,
         'user_id' => auth()->user()->id,
     ]);
-//dd(DB::getQueryLog());
+
+    //dispatch job
+    InventoryCreatedJob::dispatch($inventory);
+
     return redirect()->route('inventory.index')->with('success', 'Inventory berjaya ditambah.');
     }
 
@@ -65,6 +69,8 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
+        $this->authorize('view', $inventory);
+
         return view('inventories.show', compact('inventory'));
     }
 
@@ -74,6 +80,8 @@ class InventoryController extends Controller
     public function edit(Inventory $inventory)
     {
         // dd( $inventory);
+        $this->authorize('update', $inventory);
+
         return view('inventories.edit', compact('inventory'));
     }
 
@@ -101,6 +109,7 @@ class InventoryController extends Controller
     // Cari rekod ikut ID
     $inventory = Inventory::findOrFail($id);
 
+    $this->authorize('delete', $inventory);
     // Padam rekod
     $inventory->delete();
 
